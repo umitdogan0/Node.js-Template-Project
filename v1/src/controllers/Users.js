@@ -1,4 +1,3 @@
-const projectService = require("../services/Projects");
 const httpStatus = require("http-status");
 const {passwordToHash, generateAccessToken, generateRefreshToken} = require("../scripts/utilities/helper");
 const uuid = require("uuid")
@@ -49,14 +48,6 @@ index(req,res) {
             res.status(httpStatus.INTERNAL_SERVER_ERROR).send(e)
         })
 
-}
-
-projectList(req,res){
-    service.list({user_id: req.user?._id}).then((response)=>{
-        res.status(httpStatus.OK).send(response)
-    }).catch((e)=>{
-        res.status(httpStatus.INTERNAL_SERVER_ERROR).send(e);
-    })
 }
 
 resetPassword(req,res){
@@ -114,26 +105,7 @@ changePassword(req,res) {
 }
 
 
-updateProfileImage(req,res) { 
-    //eski
-//     if(!req?.files?.profile_image){
-//      return res.status(httpStatus.BAD_REQUEST).send("profil resmi gönderilmedi");
-//  }
-//  const extension = path.extname(req.files.profile_image.name);
-//  const fileName = `${uuid.v4()}.${extension}`;
-//  const folderPath = path.join(__dirname,"../","uploads/users",fileName);
-//  req.files.profile_image.mv(folderPath, function(err) {
-//      if(err){
-//             return res.status(httpStatus.INTERNAL_SERVER_ERROR).send(err);
-//      }
-//      modify({_id:req.user._id},{profil_image:fileName}).then((response)=>{
-//          res.status(httpStatus.OK).send({message:"işlem başarılı"});
-//      }).catch((e)=>{
-//             res.status(httpStatus.INTERNAL_SERVER_ERROR).send(e);
-//      })
-//  });
-
-//yeni
+updateProfileImage(req,res) {
 const filePath = uploadHelper("users",req,res);
 
 service.modify({_id:req.user._id},{profil_image:filePath}).then((response)=>{
